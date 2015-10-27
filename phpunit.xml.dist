@@ -1,0 +1,19 @@
+<phpunit
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    bootstrap="vendor/autoload.php"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    backupGlobals="false"
+    syntaxCheck="true"
+>
+    <testsuite name="fast event manager tests">
+        <directory>./tests</directory>
+    </testsuite>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

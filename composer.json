@@ -1,0 +1,25 @@
+{
+    "name": "gianarb/fast-event-manager",
+    "description": "Fast event manager, simples and regex based",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gianluca Arbezzano",
+            "email": "gianarb92@gmail.com"
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "FastEventManagerTest\\": "tests"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "FastEventManager\\": "src"
+        }
+    }
+}
