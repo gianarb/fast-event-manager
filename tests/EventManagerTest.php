@@ -55,6 +55,20 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testCallMoreThanOneListenerWithRegex()
+    {
+        $eventManager = new EventManager();
+        $one = false;
+        $two = false;
+        $eventManager->attach("pre-load", function() use (&$one){ $one = true; });
+        $eventManager->attach("pre-exec", function() use (&$two){ $two = true; });
+
+        $eventManager->trigger("/pre-[a-z]*/i", ["ok"]);
+
+        $this->assertTrue($one);
+        $this->assertTrue($two);
+    }
+
     public function testAttachEventCheckName()
     {
         $eventManager = new EventManager();
