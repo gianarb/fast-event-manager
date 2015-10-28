@@ -96,4 +96,26 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
         $listeners = PHPUnit_Framework_Assert::readAttribute($eventManager, 'listeners');
         $this->assertCount(2, $listeners['post-save']);
     }
+
+    public function testAttachThreeListenersWithDifferentPrioritiesSameEvent()
+    {
+        $eventManager = new EventManager();
+        $result = [];
+        $eventManager->attach('post-save', function() use (&$result) {
+            $result[] = 1;
+        }, 1);
+        $eventManager->attach('post-save', function() use (&$result) {
+            $result[] = 100;
+        }, 100);
+
+        $eventManager->attach('post-save', function() use (&$result) {
+            $result[] = 1000;
+        }, 1000);
+
+        $eventManager->trigger('/post-save/', []);
+        $this->assertEquals(1000, $result[0]);
+        $this->assertEquals(100, $result[1]);
+        $this->assertEquals(1, $result[2]);
+
+    }
 }

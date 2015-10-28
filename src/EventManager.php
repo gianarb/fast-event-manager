@@ -3,11 +3,17 @@ namespace FastEventManager;
 
 class EventManager
 {
+    /**
+     * @var \SplPriorityQueue[]
+     */
     private $listeners = [];
 
-    public function attach($name, callable $callable)
+    public function attach($name, callable $callable, $priority = 0)
     {
-        $this->listeners[$name][] = $callable;
+        if (!isset($this->listeners[$name])) {
+            $this->listeners[$name] = new \SplPriorityQueue();
+        }
+        $this->listeners[$name]->insert($callable, $priority);
     }
 
     public function trigger($regex, $params)
@@ -15,8 +21,10 @@ class EventManager
         $events = array_keys($this->listeners);
         $eventsMatched = preg_grep($regex, $events);
         foreach ($eventsMatched as $event) {
-            foreach ($this->listeners[$event] as $single) {
-                call_user_func_array($single, $params);
+            /* @var $listenersQueue \SplPriorityQueue */
+            $listenersQueue = $this->listeners[$event];
+            foreach ($listenersQueue as $listener) {
+                call_user_func($listener, $params);
             }
         }
     }
