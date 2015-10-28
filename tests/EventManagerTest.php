@@ -65,4 +65,24 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
         $listeners = PHPUnit_Framework_Assert::readAttribute($eventManager, 'listeners');
         $this->assertCount(2, $listeners['post-save']);
     }
+
+    public function benchmarkTriggerAValidCallback($b)
+    {
+        $eventManager = new EventManager();
+        $eventManager->attach("post-save", function ($assert) {});
+
+        for ($i=0; $i<$b->times(); $i++) {
+            $eventManager->trigger("/post-save/", ["override"]);
+        }
+    }
+
+    public function benchmarkZendFrameworkEventManager($b)
+    {
+        $eventManager = new \Zend\EventManager\EventManager();
+        $eventManager->attach("post-save", function ($assert) {});
+
+        for ($i=0; $i<$b->times(); $i++) {
+            $eventManager->trigger("post-save", $this, ["override"]);
+        }
+    }
 }

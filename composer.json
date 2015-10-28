@@ -3,7 +3,9 @@
     "description": "Fast event manager, simples and regex based",
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "^4.0"
+        "phpunit/phpunit": "^4.0",
+        "wdalmut/php-bench": "*",
+        "zendframework/zend-eventmanager": "~2"
     },
     "license": "MIT",
     "authors": [
