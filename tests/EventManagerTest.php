@@ -23,6 +23,33 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $listeners);
     }
 
+    public function testNoArgs()
+    {
+        $eventManager = new EventManager();
+        $call = true;
+        $eventManager->attach("post", function () use (&$call) {
+            $call = false;
+        });
+        $eventManager->trigger("/post/");
+        $this->assertFalse($call);
+    }
+
+    public function testVariadicUses()
+    {
+        $eventManager = new EventManager();
+
+        $one = false;
+        $two = true;
+        $eventManager->attach("post", function ($assert) use (&$one, &$two) {
+            $one = 1;
+            $two = 2;
+        });
+        $eventManager->trigger("/post/", $one, $two);
+
+        $this->assertSame($one, 1);
+        $this->assertSame($two, 2);
+    }
+
     /**
      * @dataProvider triggers
      */
