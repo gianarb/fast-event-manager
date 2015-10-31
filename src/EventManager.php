@@ -16,7 +16,7 @@ class EventManager
         $this->listeners[$name]->insert($callable, $priority);
     }
 
-    public function trigger($regex, $params)
+    public function trigger($regex, ...$args)
     {
         $events = array_keys($this->listeners);
         $eventsMatched = preg_grep($regex, $events);
@@ -24,7 +24,7 @@ class EventManager
             /* @var $listenersQueue \SplPriorityQueue */
             $listenersQueue = $this->listeners[$event];
             foreach ($listenersQueue as $listener) {
-                call_user_func($listener, $params);
+                call_user_func($listener, $args);
             }
         }
     }

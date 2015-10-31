@@ -7,6 +7,9 @@
         "wdalmut/php-bench": "*",
         "zendframework/zend-eventmanager": "~2"
     },
+    "require": {
+        "php": ">=5.6"
+    },
     "license": "MIT",
     "authors": [
         {
