@@ -4,6 +4,7 @@ namespace FastEventManagerTest;
 use PHPUnit_Framework_TestCase;
 use FastEventManager\EventManager;
 use PHPUnit_Framework_Assert;
+use Zend\EventManager\EventManager as ZFEventManager;
 
 class EventManagerTest extends PHPUnit_Framework_TestCase
 {
@@ -157,7 +158,7 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
 
     public function benchmarkZendFrameworkEventManager($b)
     {
-        $eventManager = new \Zend\EventManager\EventManager();
+        $eventManager = new ZFEventManager();
         $eventManager->attach("post-save", function ($assert) {});
 
         for ($i=0; $i<$b->times(); $i++) {
