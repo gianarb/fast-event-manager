@@ -26,7 +26,10 @@ class EventManager
             /* @var $listenersQueue SplPriorityQueue */
             $listenersQueue = $this->listeners[$event];
             foreach ($listenersQueue as $listener) {
-                call_user_func($listener, $args);
+                $returnListener = call_user_func($listener, $args);
+                if (isset($returnListener)) {
+                    return;
+                }
             }
         }
     }
