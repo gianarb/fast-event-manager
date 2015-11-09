@@ -24,6 +24,26 @@ class EventManagerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $listeners);
     }
 
+    public function testExceptionStopPropagation()
+    {
+        $eventManager = new EventManager();
+        $count = 0;
+        $eventManager->attach("post", function () use (&$count) {
+            $count++;
+        }, 100);
+        $eventManager->attach("post", function () use (&$count) {
+            throw new \Exception();
+        }, 110);
+        $eventManager->attach("post", function () use (&$count) {
+            $count++;
+        }, 120);
+        try {
+            $eventManager->trigger("/post/");
+        } catch (\Exception $exc) {
+        }
+        $this->assertSame(1, $count);
+    }
+
     public function testNoArgs()
     {
         $eventManager = new EventManager();
