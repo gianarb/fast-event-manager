@@ -69,3 +69,26 @@ $eventManager->trigger("/post-(save|load)/i", $assert);
 
 // output "Hi dev!"
 ```
+
+## Stop Propagation
+At the moment we decided to don't support this feature into the core of FastEventManager because
+there are a lot of implementation around this feature. This is an example
+
+```
+$eventManager = new EventManager();
+$count = 0;
+$eventManager->attach("post", function () use (&$count) {
+    $count++;
+}, 100);
+$eventManager->attach("post", function () use (&$count) {
+    throw new \Exception();
+}, 110);
+$eventManager->attach("post", function () use (&$count) {
+    $count++;
+}, 120);
+try {
+    $eventManager->trigger("/post/");
+} catch (\Exception $exc) {
+    // STOP!
+}
+```
