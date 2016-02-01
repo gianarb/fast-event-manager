@@ -74,7 +74,7 @@ $eventManager->trigger("/post-(save|load)/i", $assert);
 At the moment we decided to don't support this feature into the core of FastEventManager because
 there are a lot of implementation around this feature. This is an example
 
-```
+```php
 $eventManager = new EventManager();
 $count = 0;
 $eventManager->attach("post", function () use (&$count) {
